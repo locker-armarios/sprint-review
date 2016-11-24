@@ -2,6 +2,8 @@ var sprintApp = angular.module("sprintApp", []);
 
 sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $http){
 	
+	$scope.titleWeekReview;
+
 	$scope.summary = {
 		newFeatures: 3,
 		solvedBugs: 2,
@@ -14,17 +16,17 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 	//Stories
 
 	$scope.plannedStoriesDelivered = {
-		totalPoints: 16,
+		totalPoints: 0,
 		storiesTitles: []
 	};
 
 	$scope.middleSprintStoriesDelivered = {
-		totalPoints: 1.5,
+		totalPoints: 0,
 		storiesTitles: []
 	};
 
 	$scope.plannedStoriesNotDelivered = {
-		totalPoints: 5,
+		totalPoints: 0,
 		storiesTitles: []
 	};
 
@@ -34,7 +36,7 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 	};
 
 	$scope.middleSprintStoriesBlockedNotDelivered = {
-		totalPoints: 2,
+		totalPoints: 0,
 		storiesTitles: []
 	};
 
@@ -61,7 +63,7 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 	};
 
 	$scope.middleSprintOccurrencesBlockedNotDelivered = {
-		totalPoints: 4,
+		totalPoints: 0,
 		occurrencesTitles: []
 	};
 
@@ -74,6 +76,7 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 	$http.get("https://trello.com/b/o9YfxrIj.json")
 	.success(function(quadro) {
 		console.log("Olha o quadro", quadro);
+		$scope.titleWeekReview = (quadro.lists[11].name).substring(8,10);
 		quadro.cards.forEach(function(card){
 
 			//Sprint 57079ef1b8b39c2443769dc3
@@ -89,18 +92,28 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 				if(card.idLabels.indexOf("57079faeb0dfecc6d1d0420f") !== -1)
 				{
 					//Se nao estava no planejado
-					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1)
-						$scope.middleSprintOccurrencesDelivered.occurrencesTitles.push(card.name);				
-					else
-						$scope.plannedOccurrencesDelivered.occurrencesTitles.push(card.name)	
+					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1){
+						$scope.middleSprintOccurrencesDelivered.occurrencesTitles.push(card.name);
+						$scope.middleSprintOccurrencesDelivered.totalPoints += sumPoints(card.name);
+						}				
+					else {
+						$scope.plannedOccurrencesDelivered.occurrencesTitles.push(card.name);
+						$scope.plannedOccurrencesDelivered.totalPoints += sumPoints(card.name);
+					}
 				}
 				else
 				{
 					//Se nao estava no planejado
-					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1)
-						$scope.middleSprintStoriesDelivered.storiesTitles.push(card.name);				
-					else
-						$scope.plannedStoriesDelivered.storiesTitles.push(card.name)	
+					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1){
+						$scope.middleSprintStoriesDelivered.storiesTitles.push(card.name);
+						$scope.middleSprintStoriesDelivered.totalPoints += sumPoints(card.name);	
+					}			
+					else {
+						if(card.id !== "5707af5d8bb608cd58aa2ab5"){ //Não incluir o -Definitions of done
+							$scope.plannedStoriesDelivered.storiesTitles.push(card.name);
+							$scope.plannedStoriesDelivered.totalPoints += sumPoints(card.name);
+						}
+					}
 				}
 				
 				
@@ -112,31 +125,42 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 				if(card.idLabels.indexOf("57079faeb0dfecc6d1d0420f") !== -1)
 				{
 					//Se nao estava no planejado
-					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1)
-						$scope.middleSprintOccurrencesNotDelivered.occurrencesTitles.push(card.name);				
-					else
-						$scope.plannedOccurrencesNotDelivered.occurrencesTitles.push(card.name)	
+					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1){
+						$scope.middleSprintOccurrencesNotDelivered.occurrencesTitles.push(card.name);
+						$scope.middleSprintOccurrencesNotDelivered.totalPoints += sumPoints(card.name);				
+					}
+					else {
+						$scope.plannedOccurrencesNotDelivered.occurrencesTitles.push(card.name);
+						$scope.plannedOccurrencesNotDelivered.totalPoints += sumPoints(card.name);	
+					}
 				}
 				else
 				{
 					//Se nao estava no planejado
-					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1)
+					if(card.idLabels.indexOf("57079f92b0dfecc6d1d041c1") !== -1){
 						$scope.middleSprintStoriesNotDelivered.storiesTitles.push(card.name);
-					else
-						$scope.plannedStoriesNotDelivered.storiesTitles.push(card.name)
+						$scope.middleSprintStoriesNotDelivered.totalPoints += sumPoints(card.name);
+					}
+					else{
+						$scope.plannedStoriesNotDelivered.storiesTitles.push(card.name);
+						$scope.plannedStoriesNotDelivered.totalPoints += sumPoints(card.name);
+					}
 				}
 
 			}
 			//Na coluna Blocked
 			else if (card.idList == "57079f0301084abe023db3a2") {
 				//Se for ocorrencia
-				if(card.idLabels.indexOf("57079faeb0dfecc6d1d0420f") !== -1)
+				if(card.idLabels.indexOf("57079faeb0dfecc6d1d0420f") !== -1){
 					$scope.middleSprintOccurrencesBlockedNotDelivered.occurrencesTitles.push(card.name);
-				else
-					$scope.middleSprintStoriesBlockedNotDelivered.storiesTitles.push(card.name)
+					$scope.middleSprintOccurrencesBlockedNotDelivered.totalPoints += sumPoints(card.name);
+				}
+				else {
+					$scope.middleSprintStoriesBlockedNotDelivered.storiesTitles.push(card.name);
+					$scope.middleSprintStoriesBlockedNotDelivered.totalPoints += sumPoints(card.name);
+				}
 			}
-
-
+			
 		});
 
 
@@ -144,3 +168,14 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 
 
 }]);
+
+function sumPoints(cardname) {
+	var cutCardName = (cardname).substring((cardname).indexOf("(")+1,(cardname).indexOf(")"));
+	var intCutCardName = parseFloat(cutCardName);
+	if (!isNaN(intCutCardName)) {
+		return intCutCardName;
+	}
+	else {
+		return 0;
+	}
+}
