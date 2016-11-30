@@ -1,23 +1,32 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="pt-br" ng-app="sprintApp", ng-controller="reviewController">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=1024" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>SprintReview</title>
+    <title>Sprint Review {{titleWeekReview}}</title>
     
     <meta name="description" content="impress.js is a presentation tool based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind prezi.com." />
     <meta name="author" content="Bartek Szopka" />
 
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto+Slab:100,300,400,700|Roboto:100,100i,300,300i,400,400i,500,500i,700,900" rel="stylesheet">
+	
     <link href="css/impress-demo.css" rel="stylesheet" />
-    <link href="css/sprint-review.css" rel="stylesheet" />
-    
+    <!--<link href="css/sprint-review.css" rel="stylesheet" />-->
+	
+    <style type="text/css">
+		q { behavior:url(fixQuotes_en.htc); }
+	</style>
 </head>
 
-<body class="impress-not-supported" ng-app="sprintApp", ng-controller="reviewController">
+<body class="impress-not-supported">
+
+<video id="bgvid" playsinline autoplay muted loop>
+	<source src="bgvideo/coding.webm" type="video/webm">
+	<source src="bgvideo/coding.mp4" type="video/mp4">
+</video>
 
 <div class="fallback-message">
     <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
@@ -26,73 +35,73 @@
 
 <div id="impress">
 
-    <div  class="step" data-x="0" data-y="0" data-scale="4">
-        <q>Review do Sprint da Semana {{titleWeekReview}}</q>
+    <div class="step title" data-x="0" data-y="0" data-scale="4">
+        <center>Review do Sprint da Semana {{titleWeekReview}}</center>
     </div>
-    <div  class="step" data-x="-1300" data-y="-1300">
+    <div  class="step text-content" data-x="-1300" data-y="-1300">
         <h2>Entregamos {{plannedStoriesDelivered.totalPoints + middleSprintStoriesDelivered.totalPoints +
         plannedOccurrencesDelivered.totalPoints + middleSprintOccurrencesDelivered.totalPoints}} pontos, sendo eles: 	
         <ul>
-        	<li class="normal-size">{{summary.newFeatures}} Features novas</li>
-        	<li class="normal-size">{{summary.solvedBugs}} Bugs corrigidos</li>
-        	<li class="normal-size">{{summary.improvments}} Melhorias</li>
-        	<li class="normal-size">{{summary.studies}} Estudos</li>
-        	<li class="normal-size">{{summary.occurrences}} Ocorrências</li>
+        	<li class="normal-size"><span>{{summary.newFeatures}}</span> Features novas</li>
+        	<li class="normal-size"><span>{{summary.solvedBugs}}</span> Bugs corrigidos</li>
+        	<li class="normal-size"><span>{{summary.improvments}}</span> Melhorias</li>
+        	<li class="normal-size"><span>{{summary.studies}}</span> Estudos</li>
+        	<li class="normal-size"><span>{{summary.occurrences}}</span> Ocorrências</li>
         </ul>
-        Temos {{summary.testCoveragePercentage}}% de cobertura com testes o Goloc
+        Temos {{summary.testCoveragePercentage}}% de cobertura com testes no Goloc
         </h2>
     </div>
-    <div  class="step" data-x="1000" data-y="-1300" data-scale="2">
-        <q><h2>Histórias entregues ({{plannedStoriesDelivered.totalPoints + middleSprintStoriesDelivered.totalPoints}})</h2>
-        <h3>Planejado no Sprint ({{plannedStoriesDelivered.totalPoints}})</h3>
+    <div class="step text-content" data-x="1000" data-y="-1300" data-scale="2">
+        <q><h2>Histórias entregues <span>{{plannedStoriesDelivered.totalPoints + middleSprintStoriesDelivered.totalPoints}}</span></h2>
+        <h3>Planejado no Sprint <span>{{plannedStoriesDelivered.totalPoints}}</span></h3>
         <ul>
         	<li ng-repeat="storyTitle in plannedStoriesDelivered.storiesTitles">{{storyTitle}}</li>
         </ul>
-        <h3>Meio do Sprint ({{middleSprintStoriesDelivered.totalPoints}})</h3>
+        <h3>Meio do Sprint <span>{{middleSprintStoriesDelivered.totalPoints}}</span></h3>
 		<ul>
         	<li ng-repeat="storyTitle in middleSprintStoriesDelivered.storiesTitles">{{storyTitle}}</li>
         </ul>
         </q>
     </div>
-    <div class="step"  data-x="2000" data-y="0" data-rotate="90" data-scale="2">
-        <q><h2>Histórias Pendentes ({{plannedStoriesNotDelivered.totalPoints + middleSprintStoriesNotDelivered.totalPoints + middleSprintStoriesBlockedNotDelivered.totalPoints}})</h2>
-        <h3>Planejado no Sprint ({{plannedStoriesNotDelivered.totalPoints}})</h3>
+    <div class="step text-content"  data-x="2000" data-y="0" data-rotate="90" data-scale="2">
+        <q><h2>Histórias Pendentes <span>{{plannedStoriesNotDelivered.totalPoints + middleSprintStoriesNotDelivered.totalPoints + middleSprintStoriesBlockedNotDelivered.totalPoints}}</span></h2>
+        <h3>Planejado no Sprint <span>{{plannedStoriesNotDelivered.totalPoints}}</span></h3>
         <ul>
-        	<li ng-repeat="storyTitle in plannedStoriesNotDelivered.storiesTitles">{{storyTitle}}</li>
+        	<li ng-repeat="story in plannedStoriesNotDelivered.stories"><span class="consumed">{{story.points}}</span> {{story.title}}</li>
         </ul>
-        <h3>Meio do Sprint ({{middleSprintStoriesNotDelivered.totalPoints}})</h3>
+        <h3>Meio do Sprint <span>{{middleSprintStoriesNotDelivered.totalPoints}}</span></h3>
 		<ul>
         	<li ng-repeat="storyTitle in middleSprintStoriesNotDelivered.storiesTitles">{{storyTitle}}</li>
         </ul>
-        <h3>Bloqueadas ({{middleSprintStoriesBlockedNotDelivered.totalPoints}})</h3>
+        <h3>Bloqueadas <span>{{middleSprintStoriesBlockedNotDelivered.totalPoints}}</span></h3>
 		<ul>
         	<li ng-repeat="storyTitle in middleSprintStoriesBlockedNotDelivered.storiesTitles">{{storyTitle}}</li>
         </ul>
         </q>
     </div>
-    <div class="step"  data-x="0" data-y="1300" data-rotate="180" data-scale="2">
-        <q><h2>Ocorrências entregues ({{plannedOccurrencesDelivered.totalPoints + middleSprintOccurrencesDelivered.totalPoints}})</h2>
-        <h3>Planejado no Sprint ({{plannedOccurrencesDelivered.totalPoints}})</h3>
+    <div class="step text-content"  data-x="0" data-y="1300" data-rotate="180" data-scale="2">
+        <q><h2>Ocorrências entregues <span>{{plannedOccurrencesDelivered.totalPoints + middleSprintOccurrencesDelivered.totalPoints}}</span></h2>
+        <h3>Planejado no Sprint <span>{{plannedOccurrencesDelivered.totalPoints}}</span></h3>
         <ul>
         	<li ng-repeat="storyTitle in plannedOccurrencesDelivered.occurrencesTitles">{{storyTitle}}</li>
         </ul>
-        <h3>Meio do Sprint ({{middleSprintOccurrencesDelivered.totalPoints}})</h3>
+        <h3>Meio do Sprint <span>{{middleSprintOccurrencesDelivered.totalPoints}}</span></h3>
 		<ul>
         	<li ng-repeat="storyTitle in middleSprintOccurrencesDelivered.occurrencesTitles">{{storyTitle}}</li>
         </ul>
         </q>
     </div>
-    <div class="step" data-x="-2200" data-y="0" data-rotate="270" data-scale="2">
-        <q><h2>Ocorrências Pendentes ({{plannedOccurrencesNotDelivered.totalPoints + middleSprintOccurrencesNotDelivered.totalPoints + middleSprintOccurrencesBlockedNotDelivered.totalPoints}})</h2>
-        <h3>Planejado no Sprint ({{plannedOccurrencesNotDelivered.totalPoints}})</h3>
+    <div class="step text-content" data-x="-2200" data-y="0" data-rotate="270" data-scale="2">
+        <q><h2>Ocorrências Pendentes <span>{{plannedOccurrencesNotDelivered.totalPoints + middleSprintOccurrencesNotDelivered.totalPoints + middleSprintOccurrencesBlockedNotDelivered.totalPoints}}</span></h2>
+        <h3>Planejado no Sprint <span>{{plannedOccurrencesNotDelivered.totalPoints}}</span></h3>
         <ul>
         	<li ng-repeat="storyTitle in plannedOccurrencesNotDelivered.occurrencesTitles">{{storyTitle}}</li>
         </ul>
-        <h3>Meio do Sprint ({{middleSprintOccurrencesNotDelivered.totalPoints}})</h3>
+        <h3>Meio do Sprint <span>{{middleSprintOccurrencesNotDelivered.totalPoints}}</span></h3>
 		<ul>
         	<li ng-repeat="storyTitle in middleSprintOccurrencesNotDelivered.occurrencesTitles">{{storyTitle}}</li>
         </ul>
-        <h3>Bloqueadas ({{middleSprintOccurrencesBlockedNotDelivered.totalPoints}})</h3>
+        <h3>Bloqueadas <span>{{middleSprintOccurrencesBlockedNotDelivered.totalPoints}}</span></h3>
 		<ul>
         	<li ng-repeat="storyTitle in middleSprintOccurrencesBlockedNotDelivered.occurrencesTitles">{{storyTitle}}</li>
         </ul>

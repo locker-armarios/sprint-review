@@ -82,7 +82,7 @@ table {
     want to leave anybody behind.
 */
 body {
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     min-height: 740px;
 
     background: rgb(215, 215, 215);
@@ -175,9 +175,46 @@ a:focus {
     -o-box-sizing:      border-box;
     box-sizing:         border-box;
 
-    font-family: 'PT Serif', georgia, serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 48px;
     line-height: 1.5;
+	color: #fff;
+	cursor: pointer;
+}
+
+.title {
+	font-family: 'Roboto Condensed', sans-serif;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-style: italic;
+	text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+				 0px 8px 13px rgba(0,0,0,0.1),
+				 0px 18px 23px rgba(0,0,0,0.1);
+}
+
+.text-content {
+	font-family: 'Roboto Slab', serif;
+	text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+}
+
+.text-content span {
+	display: inline-block;
+	vertical-align: top;
+	background: #006580;
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	line-height: 65px;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+}
+
+.consumed {
+	background: #80B2C0 !important;
+	color: #222;
+	text-shadow: none;
+	box-shadow: 2px 4px 3px rgba(0,0,0,0.3);
 }
 
 /*
@@ -197,6 +234,21 @@ a:focus {
 }
 
 .impress-enabled .step.active { opacity: 1 }
+
+video { 
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	z-index: -100;
+	transform: translateX(-50%) translateY(-50%);
+	background: url(../bg.jpg) no-repeat;
+	background-size: cover;
+	transition: 1s opacity;
+}
 
 /*
     These 'slide' step styles were heavily inspired by HTML5 Slides:
