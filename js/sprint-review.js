@@ -27,7 +27,7 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 
 	$scope.plannedStoriesNotDelivered = {
 		totalPoints: 0,
-		storiesTitles: []
+		stories: []
 	};
 
 	$scope.middleSprintStoriesNotDelivered = {
@@ -142,7 +142,7 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 						$scope.middleSprintStoriesNotDelivered.totalPoints += sumPoints(card.name);
 					}
 					else{
-						$scope.plannedStoriesNotDelivered.storiesTitles.push(card.name);
+						$scope.plannedStoriesNotDelivered.stories.push({title: getCardStoryTitle(card.name), points: sumPoints(card.name)});
 						$scope.plannedStoriesNotDelivered.totalPoints += sumPoints(card.name);
 					}
 				}
@@ -174,6 +174,18 @@ function sumPoints(cardname) {
 	var intCutCardName = parseFloat(cutCardName);
 	if (!isNaN(intCutCardName)) {
 		return intCutCardName;
+	}
+	else {
+		return 0;
+	}
+}
+
+function getCardStoryTitle(cardname) {
+	var cutCardName = (cardname).substring((cardname).indexOf("(")+1,(cardname).indexOf(")"));
+	var intCutCardName = parseFloat(cutCardName);
+	if (!isNaN(intCutCardName)) {
+		var cardStoryTitle = (cardname).substring(3,(cardname).length);
+		return cardStoryTitle;
 	}
 	else {
 		return 0;
