@@ -5,11 +5,11 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 	$scope.titleWeekReview;
 
 	$scope.summary = {
-		newFeatures: 3,
-		solvedBugs: 2,
+		newFeatures: 4,
+		solvedBugs: 0,
 		improvments: 0,
 		studies: 0,
-		occurrences: 2,
+		occurrences: 1,
 		testCoveragePercentage: 59
 	};
 
