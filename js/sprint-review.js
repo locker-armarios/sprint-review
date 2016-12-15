@@ -5,11 +5,11 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 	$scope.titleWeekReview;
 
 	$scope.summary = {
-		newFeatures: 4,
+		newFeatures: 0,
 		solvedBugs: 0,
 		improvments: 0,
 		studies: 0,
-		occurrences: 1,
+		occurrences: 0,
 		testCoveragePercentage: 59
 	};
 
@@ -88,6 +88,25 @@ sprintApp.controller("reviewController", ["$scope", "$http", function($scope, $h
 			//Se estiver na coluna Sprint Done
 			if (card.idList == "57c98b47dfbcbfea5e898ef5")
 			{
+				//Colocar na contagem
+				if(card.idLabels.indexOf("57079faeb0dfecc6d1d0420f") !== -1) //ocorrencia
+				{
+					$scope.summary.occurrences += 1;
+				} else if (card.idLabels.indexOf("57079f50b0dfecc6d1d0411d") !== -1) //melhoria
+				{
+					$scope.summary.improvments += 1;
+				} else if (card.idLabels.indexOf("57079fa3b0dfecc6d1d04200") !== -1) //bug
+				{
+					$scope.summary.solvedBugs += 1;
+				} else if (card.idLabels.indexOf("57079f9ab0dfecc6d1d041ce") !== -1) //feature
+				{
+					$scope.summary.newFeatures += 1;
+				} else if (card.idLabels.indexOf("57079f7db0dfecc6d1d04189") !== -1) //estudo
+				{
+					$scope.summary.studies += 1;
+				}
+
+
 				//Se for ocorrencia
 				if(card.idLabels.indexOf("57079faeb0dfecc6d1d0420f") !== -1)
 				{
